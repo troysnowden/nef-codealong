@@ -52,6 +52,5 @@ def login_user(username, password):
         return False
 
 
-
 def is_admin(username):
     return username == "admin2"

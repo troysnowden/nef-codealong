@@ -6,4 +6,44 @@
 
 {% block main %}
     <h1>Welcome to my NEF Project</h1>
+    <div class="container">
+        <form action="/add-reward" method="POST" id="qr-form">
+            <div class="section">
+                <div id="my-qr-reader"></div>
+            </div>
+            <input type="hidden" name="username" value="0" />
+        </form>
+    </div>
+
+    <script>
+        function domReady(fn) {
+            if (
+                document.readyState === "complete" ||
+                document.readyState === "interactive"
+            ) {
+                setTimeout(fn, 1000);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+        
+        domReady(function () {
+        
+            // If found you qr code
+            function onScanSuccess(decodeText, decodeResult) {
+                // decodeText is the username
+                var qrForm = document.getElementById("qr-form");
+                qrForm.username.value = decodeText;
+                qrForm.submit();
+            }
+        
+            let htmlscanner = new Html5QrcodeScanner(
+                "my-qr-reader",
+                { fps: 10, qrbos: 250 }
+            );
+            htmlscanner.render(onScanSuccess);
+        });
+
+        
+    </script>
 {% endblock %}
