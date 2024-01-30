@@ -9,6 +9,7 @@
 # - good variable/method names
 # - code duplication
 
+from db_accessor import push_user_to_db, get_registered_users
 
 
 def register_user(username, password, confirmed_password):
@@ -43,4 +44,14 @@ def check(password):
 
 
 def login_user(username, password):
-    return is_user_registered(username, password)
+    registered_users = get_registered_users()
+    
+    if registered_users.get(username) == password:
+        return True
+    else:
+        return False
+
+
+
+def is_admin(username):
+    return username == "admin2"
