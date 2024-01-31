@@ -1,7 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 
-from helpers import register_user, login_user, is_admin
+from helpers import register_user, login_user, is_student, add_student_reward, get_student_users, login_required, get_logged_in_user_data
 
 app = Flask(__name__)
 
@@ -11,26 +11,16 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 @app.route('/')
+@login_required
 def index():
-    # def read_qr_code(filename):
-    # """Read an image and read the QR code.
-    
-    # Args:
-    #     filename (string): Path to file
-    
-    # Returns:
-    #     qr (string): Value from QR code
-    # """
-    
-    # try:
-    #     img = cv2.imread(filename)
-    #     detect = cv2.QRCodeDetector()
-    #     value, points, straight_qrcode = detect.detectAndDecode(img)
-    #     return value
-    # except:
-    #     return
-        
-    return render_template('index.html')
+    user_data = get_logged_in_user_data(session["username"])
+
+    if not user_data["is_student"]:
+        student_data = get_student_users()
+    else:
+        student_data = None
+
+    return render_template('index.html', user_data=user_data, student_data=student_data)
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -66,4 +56,21 @@ def login():
 def logout():
     session.clear()
 
-    return render_template('index.html')      
+    return redirect('/')   
+
+@app.route('/add-reward', methods=["POST"])
+@login_required
+def add_reward():  
+    username = request.form.get("username")
+
+    add_student_reward(username)
+
+    return redirect('/')
+
+
+@app.route("/", defaults={"path": ""})
+@app.route("/<string:path>")
+@app.route("/<path:path>")
+def not_found():
+    # replace with new 404 template
+    return render_template('index.html')

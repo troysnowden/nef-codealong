@@ -5,45 +5,70 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Welcome to my NEF Project</h1>
-    <div class="container">
-        <form action="/add-reward" method="POST" id="qr-form">
-            <div class="section">
-                <div id="my-qr-reader"></div>
-            </div>
-            <input type="hidden" name="username" value="0" />
-        </form>
-    </div>
+    {% if user_data.is_student %}
+        <h1> some stuff</h1>
+    {% else %}  
+        <h1>Current Student Rewards</h1>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Name</th>
+                <th scope="col">Reward Count</th>
+              </tr>
+            </thead>
+            <tbody>
+        {% for username, data in student_data.items() %}
+            <tr>
+                <td>{{ username}} </td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.num_rewards|string }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
 
-    <script>
-        function domReady(fn) {
-            if (
-                document.readyState === "complete" ||
-                document.readyState === "interactive"
-            ) {
-                setTimeout(fn, 1000);
-            } else {
-                document.addEventListener("DOMContentLoaded", fn);
-            }
-        }
-        
-        domReady(function () {
-        
-            // If found you qr code
-            function onScanSuccess(decodeText, decodeResult) {
-                // decodeText is the username
-                var qrForm = document.getElementById("qr-form");
-                qrForm.username.value = decodeText;
-                qrForm.submit();
-            }
-        
-            let htmlscanner = new Html5QrcodeScanner(
-                "my-qr-reader",
-                { fps: 10, qrbos: 250 }
-            );
-            htmlscanner.render(onScanSuccess);
-        });
 
-        
-    </script>
+        <h1>Add Reward</h1>
+        <div class="container">
+            <form action="/add-reward" method="POST" id="qr-form">
+                <div class="section">
+                    <div id="my-qr-reader"></div>
+                </div>
+                <input type="hidden" name="username" value="0" />
+            </form>
+        </div>
+
+        <script>
+            function domReady(fn) {
+                if (
+                    document.readyState === "complete" ||
+                    document.readyState === "interactive"
+                ) {
+                    setTimeout(fn, 1000);
+                } else {
+                    document.addEventListener("DOMContentLoaded", fn);
+                }
+            }
+            
+            domReady(function () {
+            
+                // If found you qr code
+                function onScanSuccess(decodeText, decodeResult) {
+                    // decodeText is the username
+                    var qrForm = document.getElementById("qr-form");
+                    qrForm.username.value = decodeText;
+                    qrForm.submit();
+                }
+            
+                let htmlscanner = new Html5QrcodeScanner(
+                    "my-qr-reader",
+                    { fps: 10, qrbos: 250 }
+                );
+                htmlscanner.render(onScanSuccess);
+            });
+
+            
+        </script>
+    {% endif %}  
 {% endblock %}
