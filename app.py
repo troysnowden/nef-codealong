@@ -62,7 +62,7 @@ def logout():
 @login_required
 def add_reward():  
     username = request.form.get("username")
-
+    print("Username: " + username)
     add_student_reward(username)
 
     return redirect('/')
