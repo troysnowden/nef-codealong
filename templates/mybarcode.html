@@ -61,7 +61,7 @@
             <h1> {{ session["username"] }} barcode: <span onblur='generateBarCode();' ></span></h1>
 
             <img id='barcode'
-                 src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100"
+                 src="https://api.qrserver.com/v1/create-qr-code/?data={{ session["username"] }}&amp;size=100x100"
                  alt="Your unique barcode"
                  title="Barcode"
                  width="80"
