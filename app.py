@@ -52,6 +52,10 @@ def login():
     else:
         return render_template('login.html')
 
+@app.route('/mybarcode')
+def myaccount():
+    return render_template('mybarcode.html')
+
 @app.route('/logout')
 def logout():
     session.clear()
