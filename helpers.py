@@ -1,14 +1,3 @@
-#notes
-# original logic to be:
-# - password length must be at least 5 characters (extreme/boundary testing)
-# - password must contain a special char (@, ! or $)
-# - passwords must match
-
-# talk about:
-# - magic numbers
-# - good variable/method names
-# - code duplication
-
 from db_accessor import push_user_to_db, get_registered_users, increment_student_rewards
 from flask import session, redirect
 from functools import wraps
