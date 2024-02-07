@@ -55,7 +55,7 @@ def get_student_users():
     return student_users
 
 def check(password):
-    if len(password) < 5:
+    if len(password) < 4:
         return False
     
     containsSpecialChar = False
