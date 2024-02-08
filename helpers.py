@@ -6,7 +6,7 @@ from functools import wraps
 def register_user(username, password, confirmed_password):
 
     if check(password):
-        return push_user_to_db(username, password)
+        return push_user_to_db(username, password, confirmed_password)
     else:
         return False
 
@@ -44,25 +44,20 @@ def get_student_users():
     return student_users
 
 def check(password):
-    if len(password) < 4:
+    minnumchar = 5
+    if len(password) < minnumchar:
         return False
     
     containsSpecialChar = False
 
-    if password[0] == '!' or password[0] == '@':
-        containsSpecialChar = True
-    
-    if password[1] == '!' or password[1] == '@':
-        containsSpecialChar = True
-    
-    if password[2] == '!' or password[2] == '@':
-        containsSpecialChar = True
-    
-    if password[3] == '!' or password[3] == '@':
-        containsSpecialChar = True
-    
-    if password[4] == '!' or password[4] == '@':
-        containsSpecialChar = True
+    for i in range(len(password)):
+        if password[i] == '!' or password[i] == '@' or password[i] == '$':
+            containsSpecialChar = True
+            break
+             
+    passwordsmatch = False
+    if password == confirmed_password:
+        passwordsmatch = True
     
     return containsSpecialChar
 
