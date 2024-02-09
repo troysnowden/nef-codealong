@@ -1,3 +1,5 @@
+import sqlite3
+
 usersData = {
     "student1": {
         "name": "John Doe",
@@ -40,3 +42,14 @@ def push_user_to_db(username, password):
 def get_registered_users():
     #key = username, value = password
     return usersData
+
+#overwrite the above with the following?
+def get_registered_users_in_db():
+    conn = get_db_connection()
+    posts = conn.execute('SELECT * FROM users').fetchall()
+    conn.close()
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
