@@ -5,7 +5,7 @@ from functools import wraps
 
 def register_user(username, password, confirmed_password):
 
-    if check(password):
+    if check(password, confirmed_password):
         return push_user_to_db(username, password)
     else:
         return False
@@ -43,7 +43,7 @@ def get_student_users():
     
     return student_users
 
-def check(password):
+def check(password, confirmed_password):
     if len(password) < 4:
         return False
     

@@ -6,6 +6,14 @@ Run the following in the terminal:
 
 * ```pip install flask```
 * ```pip install flask_session```
+* ```pip install pytest```
+
+In order to run the application, run the following in the terminal:
+```flask run```
+
+Ctrl Click on the link in the terminal to open the app in another tab:
+
+* Running on http://127.0.0.1:5000
 
 ## Git workflow (trunk-based development):
 
